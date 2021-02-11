@@ -1,0 +1,39 @@
+{% extends '2/products_layout.html' %}
+
+{% block content %}
+
+<div class="txt-heading">Search Results</div>
+
+{% for product in products %}
+
+	<div class="responsecard">
+		<form method="POST" action="/add">
+			<div class="imagecontainer">
+				<a href="#">
+					<img class ="imagetile" src="/static/images/ProductImages/{{ product[3] }}" alt="Product-Image" border="0">
+				</a>
+			</div>
+			<div class="product-tile-details">
+				<p class="nametile">{{product[1]}}, {{product[2]}}</p>
+				<div class="rating">
+					<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+				</div>
+				<hr>
+				<p class="storetile">{{ product[4] }}</p>
+				<p class="pricetile">₦{{ product[5] }}</p>
+				<div class="cart-action">
+					<input type="hidden" name="barcode" value="{{ product[0] }}"/>
+					<input type="hidden" name="store_name" value="{{ product[4] }}"/>
+					<input type="hidden" name="price" value="{{ product[5] }}"/>
+					<div class="row">
+						<input type="number" class="product-quantity col-sm-4" name="quantity" value="1"  min="1" max="{{ product[6] }}">
+						<input type="submit" value="Add" class="btn btn-sm btn-primary col-sm-6" />
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+{% endfor %}
+
+{% endblock content %}

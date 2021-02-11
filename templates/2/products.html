@@ -1,0 +1,48 @@
+{% extends '2/products_layout.html' %}
+
+{% block content %}
+
+	<div class="txt-heading">Products</div>
+	<div class="row">
+
+		{% for product in products %}
+			<div class="responsecard">
+				<form method="POST" action="">
+					<div class="imagecontainer">
+						<a href="#">
+							<img class ="imagetile" src="/static/images/ProductImages/{{ product[3] }}" alt="Product-Image" border="0">
+						</a>
+					</div>
+					<div class="product-tile-footer">
+						<p class="nametile">{{product[1]}}, {{product[2]}}</p>
+						<div class="rating">
+							<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+						</div>
+						<hr>
+						<p class="pricetile">From ₦{{ product[6] }}</p>
+						<div class="btn-group">
+							<button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Show stores
+							</button>
+							<div class="dropdown-menu">
+								{% for sub in subs %}
+									<form method="POST" action="/add" id="product_add">
+									{% if sub[0] == product[0] %}
+										<input type="hidden" name="barcode" value="{{ sub[0] }}"/>
+										<input type="hidden" name="store_name" value="{{ sub[1] }}"/>
+										<input type="hidden" name="price" value="{{ sub[2] }}"/>
+										<input type="hidden" name="quantity" value="1"/>
+										<input type="submit" class="dropdown-item store-price-list" value="{{ sub[1] }}: ₦{{ sub[2] }}"/>
+									{% endif %}
+									</form>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		{% endfor %}
+	</div>
+
+{% endblock content %}

@@ -1,0 +1,109 @@
+{% extends 'admin/master.html' %}
+
+{% block body %}
+
+<!-- Content Wrapper. Contains page content -->
+<div class="">
+  <!-- Content Header (Page header) -->
+  <section class="content-header">
+    <div class="container-fluid">
+      <div class="row mb-2">
+        <div class="col-sm-6">
+          <h1>Products List</h1>
+        </div>
+        <div class="col-sm-6">
+          <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/admin/">Home</a></li>
+            <li class="breadcrumb-item active">Products List</li>
+          </ol>
+        </div>
+      </div>
+    </div><!-- /.container-fluid -->
+  </section>
+
+  <!-- Main content -->
+  <section class="content">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Products</h3>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body">
+              <table id="product_table" class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                <tr>
+                  <th width="5%"> </th>
+                  <th>Product</th>
+                  <th>Brand</th>
+                  <th>Product Size</th>
+                  <th>Price</th>
+                  <th>Qty in stock</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for product, store_product in store_products %}
+<!-- edit the if statement below to show only products from logged in user store -->
+<!-- edit the store_product class in the py file -->
+                {% if store_product %}
+                <tr>
+                  <td><img src="/static/images/ProductImages/{{ product.product_image}}" class="product-list-image" /></td>
+                  <td>
+                    <div style="float:left;">
+                      {{ product.product_name }}
+                    </div>
+                    <div style="float:right;">
+                      <small><i class="fas fa-barcode"></i> {{ product.barcode }}</small>
+                    </div>
+                  </td>
+                  <td>
+                    {% if product.brand %}
+                    {{ product.brand }}
+                    {% endif %}
+                  </td>
+                  <td>
+                    {% if product.product_size %}
+                    {{ product.product_size }}
+                    {% endif %}
+                  </td>
+                  <td>₦{{store_product.price}}</td>
+                  <td>{{store_product.qty_in_stock}}</td>
+                </tr>
+                {% endif %}
+                {% endfor %}
+                </tbody>
+                <tfoot class="thead-dark">
+                <tr>
+                  <th width="5%"> </th>
+                  <th>Product</th>
+                  <th>Brand</th>
+                  <th>Product Size</th>
+                  <th>Price</th>
+                  <th>Qty in stock</th>
+                </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.card-body -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% block javascripts %}
+<script>
+  $(function () {
+    $("#product_table").DataTable({
+      "responsive": true,
+      "autoWidth": false,
+    });
+  });
+</script>
+
+{% endblock javascripts %}
+
+{% endblock body %}

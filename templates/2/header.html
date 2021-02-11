@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% if title %}
+	 	<title>PriceMart - {{ title }}</title>
+	{% else %}
+		<title>PriceMart</title>
+	{% endif %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="{{ url_for('static', filename='css/mainstyle.css') }}" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body>
+	<header class="site-header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+			<a class="navbar-brand mr-4 nav-item nav-link" href="/"><span class="site-color">PriceMart</span></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarToggle">
+				<div class="navbar-nav mr-auto">
+
+				</div>
+				<!-- Navbar Right Side -->
+				<div class="navbar-nav">
+					{% if session.logged_in %}
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-user-circle"></i>Hi, {{session['email']}}
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{{ url_for('dashboard') }}"><i class="fas fa-user-circle"></i> My account</a>
+							</div>
+						</div>
+					{% else %}
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-user-circle"></i> My account
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{{ url_for('login_customer') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+								<a class="dropdown-item" href="{{ url_for('signup_customer') }}"><i class="fas fa-user-plus"></i> Sign up</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="{{ url_for('dashboard') }}"><i class="fas fa-user-circle"></i> My account</a>
+							</div>
+						</div>
+					{% endif %}
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-question-circle"></i> Help
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/store_locator"><i class="fas fa-map-marker-alt" ></i> Store locator</a>
+							<a class="dropdown-item" href="/temp.html/"><i class="fas fa-question-circle"></i> Help</a>
+						</div>
+					</div>
+					<div id="my_right_sidenav" class="right_sidenav">
+						<a href="javascript:void(0)" class="closebtn" onclick="close_right_sidenav()">&times;</a>
+						<div class="side_cart">
+							<div id="shopping-cart">
+								<h4> <i class="fas fa-shopping-cart"></i> Shopping Cart</h4>
+								<small>
+								{% if 'store_cart' in session %}
+									{% for store, value in session['store_cart'].items() %}
+										<p>{{ store }}</p>
+										<button class="btn btn-info btn-block"> <i class="fas fa-truck" ></i> Book a delivery slot</button>
+										<a id="btnEmpty" href="{{ url_for('empty_cart') }}">Empty Cart</a>
+										<table class="tbl-cart" cellpadding="10" cellspacing="1">
+										<tbody>
+											<tr>
+												<th style="text-align:center;" width="5%"> </th>
+												<th style="text-align:left;">Item</th>
+												<th style="text-align:right;" width="10%">Quantity</th>
+												<th style="text-align:right;" width="15%">Unit Price</th>
+												<th style="text-align:right;" width="5%"> </th>
+											</tr>
+											{% for key, val in value.items() %}
+												{% set product_image = val['product_image'] %}
+												{% set product_name = val['product_name'] %}
+												{% set quantity = val['quantity'] %}
+												{% set price = val['price'] %}
+												<tr>
+													<td><img src="/static/images/ProductImages/{{ product_image }}" class="cart-item-image" /></td>
+													<td style="text-align:left;">{{ product_name }}</td>
+													<td style="text-align:right;">{{ quantity }}</td>
+													<td style="text-align:right;">₦{{ price }}</td>
+													<td style="text-align:right;">
+														<a href="{{ url_for('.delete_product', barcode=session['store_cart'][store]['barcode']) }}">
+															<i class="fas fa-trash-alt" ></i>
+														</a>
+													</td>
+												</tr>
+
+											{% endfor %}
+
+										</tbody>
+										</table>
+										<button class="btn btn-primary btn-block">Checkout</button>
+									{% endfor %}
+								{% else: %}
+									<div class="no-records">Your Cart is Empty</div>
+								{% endif %}
+							</small>
+							</div>
+						</div>
+
+					</div>
+
+					<a style="cursor:pointer" class="nav-item nav-link" onclick="open_right_sidenav()"><i class="fas fa-shopping-cart" ></i> Cart</a>
+
+				</div>
+
+			</div>
+
+		</nav>
+
+	</header>
+
+	<main role="main" class="container topgap">
+		<div class="container">
+			{% include '2/includes/flash_messages.html' %}
+		</div>
+
+		<div class="row">
+			<div class="col topgap">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</main>
+
+	<!-- Required Js -->
+	{% include '2/includes/scripts.html' %}
+	</body>
+</html>

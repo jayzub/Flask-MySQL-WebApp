@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	{% if title %}
+	 	<title>PriceMart - {{ title }}</title>
+	{% else %}
+		<title>PriceMart</title>
+	{% endif %}
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+	<link href="{{ url_for('static', filename='css/store.css') }}" rel="stylesheet" type="text/css" />
+	<link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}">
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+</head>
+<body>
+	<header class="site-header">
+		<nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
+			<a class="navbar-brand mr-4 nav-item nav-link" href="/"><span class="site-color">PriceMart</span></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<div class="collapse navbar-collapse" id="navbarToggle">
+				<div class="navbar-nav mr-auto">
+
+				</div>
+				<!-- Navbar Right Side -->
+				<div class="navbar-nav">
+					{% if session.logged_in %}
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-user-circle"></i>Hi, {{session['email']}}
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{{ url_for('logout') }}"><i class="fas fa-sign-out-alt"></i> Log out</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> My account</a>
+							</div>
+						</div>
+					{% else %}
+						<div class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								<i class="fas fa-user-circle"></i> My account
+							</a>
+							<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+								<a class="dropdown-item" href="{{ url_for('login_customer') }}"><i class="fas fa-sign-in-alt"></i> Login</a>
+								<a class="dropdown-item" href="{{ url_for('signup_customer') }}"><i class="fas fa-user-plus"></i> Sign up</a>
+								<div class="dropdown-divider"></div>
+								<a class="dropdown-item" href="#"><i class="fas fa-user-circle"></i> My account</a>
+							</div>
+						</div>
+					{% endif %}
+					<div class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							<i class="fas fa-question-circle"></i> Help
+						</a>
+						<div class="dropdown-menu" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="/store_locator"><i class="fas fa-map-marker-alt" ></i> Store locator</a>
+							<a class="dropdown-item" href="/temp.html/"><i class="fas fa-question-circle"></i> Help</a>
+						</div>
+					</div>
+
+				</div>
+
+			</div>
+
+		</nav>
+
+	</header>
+
+	<main role="main" class="topgap">
+		<div class="container">
+			{% with messages = get_flashed_messages() %}
+				{% if messages %}
+					{% for message in messages %}
+						<div class="alert alert-warning alert-dismissible" role="alert">
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+							{{message}}
+						</div>
+					{% endfor %}
+				{% endif %}
+			{% endwith %}
+		</div>
+
+		<div class="">
+
+			<div class="btn">
+      	<i class="fas fa-bars"></i>
+    	</div>
+
+			<nav class="sidebar overflow-auto">
+	      <div class="text">Admin Menu</div>
+				<ul>
+					<li class="active"><a href="#">Dashboard</a></li>
+					<li>
+	          <a href="#" class="inventory-btn">Inventory
+	            <span class="fas fa-caret-down first"></span>
+	          </a>
+					  <ul class="inventory-show">
+							<li><a href="#">Products</a></li>
+						</ul>
+					</li>
+					<li>
+	          <a href="#" class="orders-btn">Orders
+	            <span class="fas fa-caret-down second"></span>
+	          </a>
+	          <ul class="orders-show">
+							<li><a href="#">Pending</a></li>
+							<li><a href="#">Completed</a></li>
+							<li><a href="#">Cancelled</a></li>
+						</ul>
+					</li>
+					<li><a href="#">Promotions</a></li>
+					<li><a href="#">Reports</a></li>
+					<li><a href="#">Messages</a></li>
+					<li>
+	          <a href="#" class="settings-btn">Settings
+	            <span class="fas fa-caret-down third"></span>
+	          </a>
+					  <ul class="settings-show">
+							<li><a href="#">Users</a></li>
+						</ul>
+					</li>
+				</ul>
+			</nav>
+
+			<div class="content">
+				{% block content %}{% endblock %}
+			</div>
+		</div>
+	</main>
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script type="text/javascript" src="{{ url_for('static',filename='js/store.js') }}"></script>
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script>
+    $('.btn').click(function(){
+      $(this).toggleClass("click");
+      $('.sidebar').toggleClass("show");
+    });
+      $('.inventory-btn').click(function(){
+        $('nav ul .inventory-show').toggleClass("show");
+        $('nav ul .first').toggleClass("rotate");
+      });
+      $('.orders-btn').click(function(){
+        $('nav ul .orders-show').toggleClass("show1");
+        $('nav ul .second').toggleClass("rotate");
+      });
+			$('.settings-btn').click(function(){
+        $('nav ul .settings-show').toggleClass("show2");
+        $('nav ul .third').toggleClass("rotate");
+      });
+      $('nav ul li').click(function(){
+        $(this).addClass("active").siblings().removeClass("active");
+      });
+    </script>
+</body>
+</html>

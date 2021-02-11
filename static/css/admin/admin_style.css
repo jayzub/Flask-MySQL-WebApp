@@ -1,0 +1,13 @@
+.product-list-image
+{
+  height: 40px;
+  border-radius: 50%;
+  border: #E0E0E0 1px solid;
+  padding: 5px;
+  vertical-align: middle;
+  margin-right: 15px;
+}
+
+.text-right{
+	text-align: right;
+}

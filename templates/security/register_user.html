@@ -1,0 +1,32 @@
+{% extends "security/base.html" %}
+{% from "security/_macros.html" import render_field_with_errors, render_field %}
+
+{% block content %}
+<body>
+	<div class="content-section">
+    <form action="{{ url_for_security('register') }}" method="POST" name="register_user_form">
+      <fieldset class="form-group">
+        <legend clas="border-bottom mb-4">Register User</legend>
+				<div class="form-group">
+          {{ register_user_form.hidden_tag() }}
+          {{ render_field_with_errors(register_user_form.email, class_="form-control form-control-lg") }}
+          {{ render_field_with_errors(register_user_form.password, class_="form-control form-control-lg") }}
+          {% if register_user_form.password_confirm %}
+            {{ render_field_with_errors(register_user_form.password_confirm, class_="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+      </fieldset>
+      <div class="form-group">
+        {{ render_field(register_user_form.submit, class_="btn btn-primary") }}
+      </div>
+
+    </form>
+  </div>
+  <div class="border-top pt-3">
+		<small class="text-muted">
+      Already Have An Account? <a class="ml-2" href="{{ url_for_security('login') }}">Login </a>
+		</small>
+	</div>
+</body>
+{% include "security/_menu.html" %}
+{% endblock %}

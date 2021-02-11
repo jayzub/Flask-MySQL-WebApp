@@ -1,0 +1,42 @@
+{% extends '2/products_layout.html' %}
+
+{% block content %}
+
+
+<div class="txt-heading">Related Search Products</div>
+
+{% for product in products %}
+
+	<div class="responsecard">
+		<form method="post" action="/add">
+			<div class="imagecontainer">
+				<a href="#">
+					<img class ="imagetile" src="/static/images/ProductImages/{{ product[3] }}" alt="Product-Image" border="0">
+				</a>
+			</div>
+			<div class="product-tile-details">
+				<p class="nametile">{{product[1]}}, {{product[2]}}</p>
+				<div class="rating">
+					<span>☆</span><span>☆</span><span>☆</span><span>☆</span><span>☆</span>
+				</div>
+				<hr>
+				<p class="pricetile"> From ₦{{ product[5] }}</p>
+				<div class="btn-group">
+					<button type="button" class="btn btn-sm btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						Show stores
+					</button>
+					<div class="dropdown-menu">
+					{% for sub in subs %}
+						{% if sub[0] == product[0] %}
+							<a class="dropdown-item store-price-list" href="#">{{ sub[1] }}: ₦{{ sub[2] }}</a>
+						{% endif %}
+					{% endfor %}
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+
+  {% endfor %}
+
+  {% endblock content %}

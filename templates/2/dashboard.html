@@ -1,0 +1,33 @@
+{% extends '2/header.html' %}
+
+{% block content %}
+
+<div role="tabpanel">
+
+  <!-- Nav tabs -->
+  <ul class="nav nav-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#one" aria-controls="one" role="tab" data-toggle="tab">Tab one</a></li>
+    <li role="presentation"><a href="#two" aria-controls="two" role="tab" data-toggle="tab">Tab Two</a></li>
+    <li role="presentation"><a href="#three" aria-controls="three" role="tab" data-toggle="tab">Tab Three</a></li>
+
+  </ul>
+
+  <!-- Tab panes -->
+<div class="tab-content">
+  <div role="tabpanel" class="tab-pane fade in active" id="one">
+	<ul>
+	   <li>stuff</li>
+	   <li>more stuff</li>
+	   <li>even more stuff</li>
+	</ul>
+  </div>
+
+  <div role="tabpanel" class="tab-pane fade" id="two">stuff goes here</div>
+
+  <div role="tabpanel" class="tab-pane fade" id="three">More stuff here</div>
+
+</div>
+
+</div>
+
+{% endblock content %}

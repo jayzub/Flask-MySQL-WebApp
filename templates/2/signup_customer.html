@@ -1,0 +1,44 @@
+{% extends '2/header.html' %}
+
+{% block content %}
+<div class="content-section">
+	<form method="POST" action="/signup_customer/">
+
+		<fieldset class="form-group">
+			<legend clas="border-bottom mb-4">Signup</legend>
+			<div class="form-group">
+				{{ form.email.label(class="form-control-label") }}
+				{{ form.email(class="form-control form-control-lg") }}
+			</div>
+			<div class="form-group">
+				{{ form.password.label(class="form-control-label") }}
+				{{ form.password(class="form-control form-control-lg") }}
+			</div>
+			<div class="form-group">
+				{{ form.confirm_password.label(class="form-control-label") }}
+				{{ form.confirm_password(class="form-control form-control-lg") }}
+			</div>
+			<div class="form-group row">
+				<div class="col-md-1">
+					{{ form.accept_terms(class="form-control form-control-sm") }}
+				</div>
+				<div class="col-md-8">
+					<small class="text-muted">
+					{{ form.accept_terms.label(class="form-control-label ") }}
+					</small>
+				</div>
+			</div>
+		</fieldset>
+		<div class="form-group">
+			{{ form.submit(class="btn btn-primary") }}
+		</div>
+
+	</form>
+</div>
+<div class="border-top pt-3">
+	<small class="text-muted">
+		Already Have An Account? <a class="ml-2" href="{{ url_for('login_customer') }}">Login </a>
+	</small>
+</div>
+
+{% endblock content %}

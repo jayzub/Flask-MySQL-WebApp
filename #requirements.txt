@@ -1,0 +1,13 @@
+Flask==1.1.2
+passlib==1.7.4
+flask_wtf==0.14.3
+Flask-SQLAlchemy==2.4.4
+Faker==5.8.0
+Flask-Admin==1.5.7
+Flask-Script==2.0.6
+Flask-Migrate==2.6.0
+WTForms==2.3.3
+PyMySQL==1.0.2
+Flask-Ext==0.1
+Flask-MySQL==1.5.2
+sqlalchemy-views==0.2.4
